@@ -1,0 +1,135 @@
+/* Logico_1: */
+
+CREATE TABLE Candidato (
+    idcandidato INTEGER PRIMARY KEY,
+    nomeCandidato VARCHAR,
+    cpfCandidato VARCHAR,
+    numCandidatura VARCHAR,
+    rgCandidato VARCHAR
+);
+
+CREATE TABLE Concurso (
+    idConcurso INTEGER PRIMARY KEY,
+    nomeCurso VARCHAR,
+    dataConcurso DATE
+);
+
+CREATE TABLE Cargos (
+    idCargo INTEGER PRIMARY KEY,
+    tipoCargo VARCHAR,
+    nomeCargo VARCHAR
+);
+
+CREATE TABLE Etapas (
+    idetapas INTEGER PRIMARY KEY
+);
+
+CREATE TABLE Departamentos (
+    idDepartamento INTEGER PRIMARY KEY,
+    nomeDepartamento VARCHAR
+);
+
+CREATE TABLE Classificatoria (
+    idClassificatoria INTEGER,
+    statusClassificatoria VARCHAR,
+    fk_Etapas_idetapas INTEGER,
+    PRIMARY KEY (idClassificatoria, fk_Etapas_idetapas)
+);
+
+CREATE TABLE Eliminatoria (
+    idEliminatoria INTEGER,
+    statusEliminatoria VARCHAR,
+    fk_Etapas_idetapas INTEGER,
+    PRIMARY KEY (idEliminatoria, fk_Etapas_idetapas)
+);
+
+CREATE TABLE Instituicao (
+    idInstituicao INTEGER PRIMARY KEY,
+    nomeInstituicao VARCHAR,
+    cnpjInstituicao VARCHAR
+);
+
+CREATE TABLE Candidato_Concurso (
+    fk_Candidato_idcandidato INTEGER,
+    fk_Concurso_idConcurso INTEGER
+);
+
+CREATE TABLE Cargos_Concurso (
+    fk_Cargos_idCargo INTEGER,
+    fk_Concurso_idConcurso INTEGER
+);
+
+CREATE TABLE Etapas_Concurso (
+    fk_Etapas_idetapas INTEGER,
+    fk_Concurso_idConcurso INTEGER
+);
+
+CREATE TABLE Departamentos_Cargos (
+    fk_Departamentos_idDepartamento INTEGER,
+    fk_Cargos_idCargo INTEGER
+);
+
+CREATE TABLE Instituicao_Concurso (
+    fk_Instituicao_idInstituicao INTEGER,
+    fk_Concurso_idConcurso INTEGER
+);
+ 
+ALTER TABLE Classificatoria ADD CONSTRAINT FK_Classificatoria_2
+    FOREIGN KEY (fk_Etapas_idetapas)
+    REFERENCES Etapas (idetapas)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Eliminatoria ADD CONSTRAINT FK_Eliminatoria_2
+    FOREIGN KEY (fk_Etapas_idetapas)
+    REFERENCES Etapas (idetapas)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Candidato_Concurso ADD CONSTRAINT FK_Candidato_Concurso_1
+    FOREIGN KEY (fk_Candidato_idcandidato)
+    REFERENCES Candidato (idcandidato)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Candidato_Concurso ADD CONSTRAINT FK_Candidato_Concurso_2
+    FOREIGN KEY (fk_Concurso_idConcurso)
+    REFERENCES Concurso (idConcurso)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Cargos_Concurso ADD CONSTRAINT FK_Cargos_Concurso_1
+    FOREIGN KEY (fk_Cargos_idCargo)
+    REFERENCES Cargos (idCargo)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Cargos_Concurso ADD CONSTRAINT FK_Cargos_Concurso_2
+    FOREIGN KEY (fk_Concurso_idConcurso)
+    REFERENCES Concurso (idConcurso)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Etapas_Concurso ADD CONSTRAINT FK_Etapas_Concurso_1
+    FOREIGN KEY (fk_Etapas_idetapas)
+    REFERENCES Etapas (idetapas)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Etapas_Concurso ADD CONSTRAINT FK_Etapas_Concurso_2
+    FOREIGN KEY (fk_Concurso_idConcurso)
+    REFERENCES Concurso (idConcurso)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Departamentos_Cargos ADD CONSTRAINT FK_Departamentos_Cargos_1
+    FOREIGN KEY (fk_Departamentos_idDepartamento)
+    REFERENCES Departamentos (idDepartamento)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Departamentos_Cargos ADD CONSTRAINT FK_Departamentos_Cargos_2
+    FOREIGN KEY (fk_Cargos_idCargo)
+    REFERENCES Cargos (idCargo)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Instituicao_Concurso ADD CONSTRAINT FK_Instituicao_Concurso_1
+    FOREIGN KEY (fk_Instituicao_idInstituicao)
+    REFERENCES Instituicao (idInstituicao)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Instituicao_Concurso ADD CONSTRAINT FK_Instituicao_Concurso_2
+    FOREIGN KEY (fk_Concurso_idConcurso)
+    REFERENCES Concurso (idConcurso)
+    ON DELETE RESTRICT;
